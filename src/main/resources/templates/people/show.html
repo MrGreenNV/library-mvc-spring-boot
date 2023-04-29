@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница абонента</title>
+</head>
+<body>
+
+<p th:text="${person.getFullName() + ', ' + person.getYearOfBirthday()}">VALUE</p>
+
+<p th:if="${#lists.isEmpty(books)}">Абонент пока не взял ни одной книги</p>
+
+<hr th:if="${not #lists.isEmpty(books)}"/>
+
+<div th:if="${not #lists.isEmpty(books)}">
+    <b>Книги:</b>
+    <br/>
+    <div th:each="book : ${books}">
+<!--        <p th:if="${person.getBooks().get(book.getId()).isOverdue()}">-->
+        <div th:if="${book.isOverdue()==true}">
+            <p style="color: red" th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRealize()}">Text</p>
+        </div>
+<!--        <p th:if="${not person.getBooks().get(book.getId()).isOverdue()}">-->
+        <div th:if="${book.isOverdue()==false}">
+            <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfRealize()}">Text</p>
+        </div>
+    </div>
+</div>
+
+<hr/>
+
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Редактировать">
+</form>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+
+</body>
+</html>
